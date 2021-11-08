@@ -20,4 +20,17 @@ class BaseModel
         $stmt = $this->dbConnect->query($sql);
         return $stmt->fetchAll();
     }
+    public function getById($id)
+    {
+        $sql = "SELECT * FROM $this->table WHERE id = $id";
+        $stmt = $this->dbConnect->query($sql);
+        return $stmt->fetch();
+    }
+    public function delete($id)
+    {
+        $sql = "DELETE FROM $this->table WHERE id=:id";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+    }
 }

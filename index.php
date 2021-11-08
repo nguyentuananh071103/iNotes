@@ -1,14 +1,18 @@
 <?php
 include_once "Controller/InoteController.php";
+//include_once "Controller/AuthController.php";
+//include_once "Controller/NoteManagementController.php";
 
 
-session_start();
-$page = (isset($_GET["page"])?$_GET["page"]:"");
+//session_star();
 
 $inoteController = new InoteController();
+//$authController = new AuthController();
+//$notemanagementController = new NoteManagementController();
 
+$page = (isset($_GET["page"])?$_GET["page"]:"");
+//$username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 ?>
-
     <!doctype html>
     <html lang="en">
     <head>
@@ -20,20 +24,28 @@ $inoteController = new InoteController();
     </head>
 <body>
 <div class="navbar">
+<!--    <p>Name: --><?php //echo $username; ?><!--</p>-->
+<!--    <a href="index.php?page=logout">Logout</a>-->
     <a href="index.php?page=notes-list">Inotes</a>
+<!--    <a href="index.php?page=notemanagements-list">NoteManagements</a>-->
 </div>
 <?php
 switch ($page) {
     case "notes-list":
         $inoteController->index();
         break;
-    case "notes-create":
+
+//    case "notemanagements-list":
+//        $notemanagementController->index();
+//        break;
+
+
+    case "notes-add":
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            //show form create
-            $inoteController->showFormCreate();
+            //show form add
+            $inoteController->showFormAdd();
         } else {
-            //tao san pham
-            $inoteController->create($_REQUEST);
+            $inoteController->add($_REQUEST);
         }
         break;
     case "notes-update":
@@ -41,12 +53,28 @@ switch ($page) {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $inoteController->showFormUpdate();
         } else {
-            $inoteController->editProduct($id, $_REQUEST);
+            $inoteController->editInote($id, $_REQUEST);
         }
 
         break;
-}
+    case "notes-delete":
+        $inoteController->deleteInotes($_REQUEST["id"]);
+        break;
 
+
+//    case "login":
+//        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+//            $authController->showFormLogin();
+//        } else {
+//            $authController->login($_REQUEST);
+//        }
+//        break;
+//    case "logout":
+//        $authController->logout();
+//        break;
+    default:
+        $inoteController->index();
+}
 ?>
 </body>
 </html>

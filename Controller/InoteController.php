@@ -1,5 +1,6 @@
 <?php
 include_once "Model/NoteModel.php";
+
 class InoteController
 {
     private $noteModel;
@@ -14,51 +15,48 @@ class InoteController
         $notes = $this->noteModel->getAll();
         include_once "View/Inotes/list.php";
     }
-    public function showFormCreate()
+
+    public function showFormAdd()
     {
         include_once "View/Inotes/add.php";
     }
 
-    public function create($data)
+    public function add($data)
     {
-//        $filepath = "";
-//        if (isset($_FILES["file"])) {
-//            $filepath = "uploads/" . $_FILES["file"]["name"];
-//            if (move_uploaded_file($_FILES["file"]["tmp_name"], $filepath)) {
-//                echo "<img src=" . $filepath . " height=200 width=300 />";
-//            } else {
-//                echo "Error !!";
-//            }
-//        }
-//        $data2 = [
-//            "name" => $data['name'],
-//            "price" => $data['price'],
-//            "description" => $data['desc'],
-//            "image" => $filepath
-//        ];
-//
-//        $this->noteModel->create($data2);
-//        header("location:index.php");
+        $data2 = [
+            "title" => $data['title'],
+            "content" => $data['content'],
+            "description" => $data['desc']
+        ];
+        $this->noteModel->add($data2);
+        header("location:index.php");
+    }
+
+    public function deleteInotes($id)
+    {
+        if ($this->noteModel->getById($id) !== null) {
+            $this->noteModel->delete($id);
+            header("location:index.php");
+        }
     }
 
     public function showFormUpdate()
     {
+        $id = $_REQUEST["id"];
+        $note = $this->noteModel->getById($id);
         include_once "View/Inotes/update.php";
     }
+    public function editInote($id, $request){
+        $notes = $this->noteModel->getById($id);
 
-    public function editProduct($id, $request)
-    {
-//        $product = $this->productModel->getById($id);
-//
-////        if ($_SERVER['REQUEST_METHOD']== "POST"){
-//        $data = [
-//            "name" => $request['name'],
-//            "price" => $request['price'],
-//            "description" => $request['desc'],
-//            "id" => $id
-//        ];
-//        $this->productModel->edit($data);
-//        header("location:index.php");
-////        }
+        $data = [
+            "title" => $request['title'],
+            "content" => $request['content'],
+//            "description" =>$request['desc'],
+            "id" => $id
+        ];
+        $this->noteModel->edit($data);
+        header("location:index.php");
     }
+
 }

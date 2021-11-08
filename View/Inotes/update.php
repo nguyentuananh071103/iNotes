@@ -1,9 +1,13 @@
 <div>
-    <form action=""method="post" enctype="multipart/form-data">
+<!--    <form action=""method="post" enctype="multipart/form-data">-->
+    <h3>Ghi chú</h3>
+    <form action=""method="post">
         <p>Tiêu đề</p>
-        <input type="text" name="name" placeholder="Tiêu đề" ">
+        <input type="text" name="title" placeholder="Tiêu đề" value="<?php echo $notes['title']?>">
         <p>Nội dung</p>
-        <textarea></textarea><br>
+        <textarea input type="text" name="content" placeholder="Nội dung" value="<?php echo $notes['content']?>"></textarea><br>
+
         <button type="submit">Lưu</button>
+        <button><a href="index.php">Hủy</a></button>
     </form>
 </div>
