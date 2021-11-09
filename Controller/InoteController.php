@@ -12,6 +12,7 @@ class InoteController
 
     public function index()
     {
+        $types = $this->noteModel->getAll();
         $notes = $this->noteModel->getAll();
         include_once "View/Inotes/list.php";
     }

@@ -8,21 +8,23 @@ class NoteModel extends BaseModel
 
     public function add($data)
     {
-        $sql = "INSERT INTO $this->table (`title`,`content`) VALUE(?,?)";
+        $sql = "INSERT INTO $this->table (`title`,`content`,`type`) VALUE(?,?,?)";
         $stmt = $this->dbConnect->prepare($sql);
         $stmt->bindParam(1, $data["title"]);
         $stmt->bindParam(2, $data["content"]);
+        $stmt->bindParam(3, $data["type"]);
         $stmt->execute();
     }
 
     public function edit($data)
     {
         try {
-            $sql = "UPDATE $this->table SET `title`  = ?,`content`=? WHERE `type_id` = ?";
+            $sql = "UPDATE $this->table SET `title`  = ?,`content`=?, `type`=? WHERE `id` = ?";
             $stmt = $this->dbConnect->prepare($sql);
             $stmt->bindParam(1, $data["title"]);
             $stmt->bindParam(2, $data["content"]);
-            $stmt->bindParam(3, $data["type_id"]);
+            $stmt->bindParam(3, $data["type"]);
+            $stmt->bindParam(4, $data["id"]);
             $stmt->execute();
         } catch (Exception $exception) {
             echo $exception->getMessage();
